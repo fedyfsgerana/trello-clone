@@ -1,73 +1,101 @@
 <template>
-  <div class="min-h-screen bg-blue-600 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">Trello Clone</h1>
-        <p class="text-gray-500 mt-2">Buat akun baru</p>
-      </div>
-      <div
-        v-if="error"
-        class="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm"
-      >
-        {{ error }}
-      </div>
-      <div
-        v-if="success"
-        class="bg-green-100 text-green-600 p-3 rounded mb-4 text-sm"
-      >
-        {{ success }}
-      </div>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Nama Lengkap</label
-          >
-          <input
-            v-model="name"
-            type="text"
-            placeholder="John Doe"
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Email</label
-          >
-          <input
-            v-model="email"
-            type="email"
-            placeholder="email@example.com"
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Password</label
-          >
-          <input
-            v-model="password"
-            type="password"
-            placeholder="Minimal 8 karakter"
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <button
-          @click="handleRegister"
-          :disabled="loading"
-          class="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50"
+  <div class="min-h-screen flex">
+    <!-- Left panel -->
+    <div
+      class="hidden lg:flex w-1/2 bg-gradient-to-br from-indigo-700 via-blue-600 to-cyan-500 flex-col items-center justify-center p-12 text-white"
+    >
+      <div class="max-w-md text-center">
+        <div
+          class="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
         >
-          {{ loading ? "Memproses..." : "Daftar" }}
-        </button>
+          <span class="text-4xl font-black text-white">T</span>
+        </div>
+        <h1 class="text-4xl font-black mb-4">TaskBoard</h1>
+        <p class="text-blue-100 text-lg leading-relaxed">
+          Mulai gratis hari ini. Tidak perlu kartu kredit.
+        </p>
       </div>
-      <p class="text-center text-sm text-gray-500 mt-6">
-        Sudah punya akun?
-        <router-link
-          to="/login"
-          class="text-blue-600 font-medium hover:underline"
-        >
-          Masuk di sini
-        </router-link>
-      </p>
+    </div>
+
+    <!-- Right panel -->
+    <div
+      class="w-full lg:w-1/2 flex items-center justify-center bg-gray-50 p-8"
+    >
+      <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="mb-8">
+            <h2 class="text-2xl font-black text-gray-800">Buat akun baru ✨</h2>
+            <p class="text-gray-500 mt-1">Gratis selamanya, daftar sekarang!</p>
+          </div>
+
+          <div
+            v-if="error"
+            class="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl mb-5 text-sm"
+          >
+            ⚠️ {{ error }}
+          </div>
+          <div
+            v-if="success"
+            class="bg-green-50 border border-green-200 text-green-600 p-3 rounded-xl mb-5 text-sm"
+          >
+            ✅ {{ success }}
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5"
+                >Nama Lengkap</label
+              >
+              <input
+                v-model="name"
+                type="text"
+                placeholder="John Doe"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition text-gray-800"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5"
+                >Email</label
+              >
+              <input
+                v-model="email"
+                type="email"
+                placeholder="email@example.com"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition text-gray-800"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5"
+                >Password</label
+              >
+              <input
+                v-model="password"
+                type="password"
+                placeholder="Minimal 8 karakter"
+                class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition text-gray-800"
+              />
+            </div>
+
+            <button
+              @click="handleRegister"
+              :disabled="loading"
+              class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 rounded-xl font-bold hover:opacity-90 disabled:opacity-50 transition shadow-md shadow-blue-200 mt-2"
+            >
+              {{ loading ? "⏳ Memproses..." : "Daftar Sekarang →" }}
+            </button>
+          </div>
+
+          <p class="text-center text-sm text-gray-500 mt-6">
+            Sudah punya akun?
+            <router-link
+              to="/login"
+              class="text-blue-600 font-bold hover:underline"
+            >
+              Masuk di sini
+            </router-link>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,7 +121,7 @@ const handleRegister = async () => {
   loading.value = true;
   try {
     await authStore.register(name.value, email.value, password.value);
-    success.value = "Registrasi berhasil! Silakan login.";
+    success.value = "Registrasi berhasil! Mengalihkan ke login...";
     setTimeout(() => router.push("/login"), 1500);
   } catch (err) {
     error.value = err.response?.data?.message || "Registrasi gagal, coba lagi";
