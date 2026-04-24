@@ -7,6 +7,7 @@ require('dotenv').config()
 const authRoutes = require('./src/routes/auth.routes')
 const boardRoutes = require('./src/routes/board.routes')
 const columnRoutes = require('./src/routes/column.routes')
+const taskRoutes = require('./src/routes/task.routes')
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use('/api/auth', authRoutes)
 app.use('/api/boards', boardRoutes)
 app.use('/api', columnRoutes)
+app.use('/api', taskRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'API Trello Clone berjalan!' })
