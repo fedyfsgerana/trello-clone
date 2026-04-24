@@ -1,58 +1,70 @@
 <template>
   <div
-    class="bg-white rounded-xl shadow-sm p-3 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 border border-gray-100 group"
     @click="$emit('click')"
+    class="bg-white rounded-xl p-3.5 cursor-pointer hover:shadow-md transition-all duration-150 border border-slate-100 group hover:-translate-y-0.5 animate-fade-in"
   >
-    <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center justify-between mb-2.5">
       <span
-        class="text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1"
+        class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full"
         :class="{
-          'bg-red-100 text-red-600': task.priority === 'high',
-          'bg-yellow-100 text-yellow-700': task.priority === 'medium',
-          'bg-green-100 text-green-600': task.priority === 'low',
+          'bg-red-50 text-red-600 border border-red-100':
+            task.priority === 'high',
+          'bg-amber-50 text-amber-700 border border-amber-100':
+            task.priority === 'medium',
+          'bg-emerald-50 text-emerald-700 border border-emerald-100':
+            task.priority === 'low',
         }"
       >
-        <FireIcon v-if="task.priority === 'high'" class="w-3 h-3" />
-        <MinusCircleIcon
-          v-else-if="task.priority === 'medium'"
-          class="w-3 h-3"
-        />
-        <CheckCircleIcon v-else class="w-3 h-3" />
-        {{ task.priority }}
+        <span
+          class="w-1.5 h-1.5 rounded-full"
+          :class="{
+            'bg-red-500': task.priority === 'high',
+            'bg-amber-500': task.priority === 'medium',
+            'bg-emerald-500': task.priority === 'low',
+          }"
+        ></span>
+        {{
+          task.priority === "high"
+            ? "Tinggi"
+            : task.priority === "medium"
+              ? "Sedang"
+              : "Rendah"
+        }}
       </span>
-      <PencilIcon
-        class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition"
+      <PencilSquareIcon
+        class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-400 transition opacity-0 group-hover:opacity-100"
       />
     </div>
 
-    <p class="text-sm font-semibold text-gray-800 leading-snug">
+    <p class="text-sm font-semibold text-slate-800 leading-snug">
       {{ task.title }}
     </p>
-    <p v-if="task.description" class="text-xs text-gray-400 mt-1 line-clamp-2">
+
+    <p
+      v-if="task.description"
+      class="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed"
+    >
       {{ task.description }}
     </p>
 
-    <div v-if="task.due_date" class="flex items-center gap-1 mt-2">
-      <CalendarDaysIcon class="w-3.5 h-3.5 text-gray-400" />
-      <span class="text-xs text-gray-400">{{ formatDate(task.due_date) }}</span>
+    <div
+      v-if="task.due_date"
+      class="flex items-center gap-1.5 mt-2.5 pt-2.5 border-t border-slate-50"
+    >
+      <CalendarDaysIcon class="w-3.5 h-3.5 text-slate-400" />
+      <span class="text-xs text-slate-400 font-medium">{{
+        formatDate(task.due_date)
+      }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import {
-  FireIcon,
-  MinusCircleIcon,
-  CheckCircleIcon,
-  PencilIcon,
-  CalendarDaysIcon,
-} from "@heroicons/vue/24/outline";
-
+import { PencilSquareIcon, CalendarDaysIcon } from "@heroicons/vue/24/outline";
 defineProps({ task: Object });
 defineEmits(["click"]);
-
-const formatDate = (date) =>
-  new Date(date).toLocaleDateString("id-ID", {
+const formatDate = (d) =>
+  new Date(d).toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",
     year: "numeric",

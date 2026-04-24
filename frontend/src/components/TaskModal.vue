@@ -1,97 +1,122 @@
 <template>
   <div
-    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+    class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4"
     @click.self="$emit('close')"
   >
-    <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="text-xl font-black text-gray-800 flex items-center gap-2">
-          <ClipboardDocumentListIcon class="w-6 h-6 text-indigo-500" />
-          {{ isEdit ? "Edit Task" : "Task Baru" }}
-        </h3>
+    <div
+      class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fade-in overflow-hidden"
+    >
+      <div
+        class="flex items-center justify-between px-6 py-4 border-b border-slate-100"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-xl flex items-center justify-center"
+            :class="isEdit ? 'bg-slate-100' : 'bg-blue-50'"
+          >
+            <PencilSquareIcon v-if="isEdit" class="w-5 h-5 text-slate-600" />
+            <PlusCircleIcon v-else class="w-5 h-5 text-blue-600" />
+          </div>
+          <h3 class="font-display font-black text-slate-800 text-lg">
+            {{ isEdit ? "Edit Task" : "Task Baru" }}
+          </h3>
+        </div>
         <button
           @click="$emit('close')"
-          class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition"
+          class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
         >
           <XMarkIcon class="w-5 h-5" />
         </button>
       </div>
 
-      <div class="space-y-4">
+      <div class="p-6 space-y-4">
         <div>
-          <label class="block text-sm font-bold text-gray-700 mb-1.5"
+          <label
+            class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
             >Judul Task *</label
           >
-          <div class="relative">
-            <PencilSquareIcon
-              class="w-5 h-5 text-gray-400 absolute left-3 top-2.5"
-            />
-            <input
-              v-model="form.title"
-              type="text"
-              placeholder="Apa yang perlu dikerjakan?"
-              class="w-full border-2 border-gray-200 rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-indigo-500 transition"
-            />
-          </div>
+          <input
+            v-model="form.title"
+            type="text"
+            placeholder="Apa yang perlu dikerjakan?"
+            class="input"
+          />
         </div>
 
         <div>
-          <label class="block text-sm font-bold text-gray-700 mb-1.5"
+          <label
+            class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
             >Deskripsi</label
           >
           <textarea
             v-model="form.description"
-            placeholder="Detail lebih lanjut..."
+            placeholder="Tambahkan detail atau catatan..."
             rows="3"
-            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 transition resize-none"
+            class="input resize-none"
           />
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label
-              class="block text-sm font-bold text-gray-700 mb-1.5 flex items-center gap-1"
+              class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
+              >Prioritas</label
             >
-              <FlagIcon class="w-4 h-4 text-indigo-400" /> Prioritas
-            </label>
-            <select
-              v-model="form.priority"
-              class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 transition"
-            >
-              <option value="low">🟢 Low</option>
-              <option value="medium">🟡 Medium</option>
-              <option value="high">🔴 High</option>
-            </select>
+            <div class="flex flex-col gap-1.5">
+              <label
+                v-for="p in priorities"
+                :key="p.value"
+                class="flex items-center gap-2.5 p-2.5 rounded-xl border-2 cursor-pointer transition-all"
+                :class="
+                  form.priority === p.value
+                    ? p.activeClass
+                    : 'border-slate-100 hover:border-slate-200'
+                "
+              >
+                <input
+                  type="radio"
+                  v-model="form.priority"
+                  :value="p.value"
+                  class="hidden"
+                />
+                <span
+                  class="w-2 h-2 rounded-full flex-shrink-0"
+                  :class="p.dot"
+                ></span>
+                <span
+                  class="text-sm font-semibold"
+                  :class="
+                    form.priority === p.value ? p.textActive : 'text-slate-600'
+                  "
+                  >{{ p.label }}</span
+                >
+              </label>
+            </div>
           </div>
+
           <div>
             <label
-              class="block text-sm font-bold text-gray-700 mb-1.5 flex items-center gap-1"
+              class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
+              >Due Date</label
             >
-              <CalendarDaysIcon class="w-4 h-4 text-indigo-400" /> Due Date
-            </label>
-            <input
-              v-model="form.due_date"
-              type="date"
-              class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 transition"
-            />
+            <input v-model="form.due_date" type="date" class="input" />
+            <p class="text-xs text-slate-400 mt-1.5">Batas pengerjaan</p>
           </div>
         </div>
       </div>
 
-      <div class="flex gap-3 mt-6">
-        <button
-          @click="handleSave"
-          class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-2.5 rounded-xl font-bold hover:opacity-90 transition shadow-md shadow-blue-200 flex items-center justify-center gap-2"
-        >
-          <CheckIcon class="w-4 h-4" /> Simpan
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-slate-50 border-t border-slate-100 gap-3"
+      >
+        <button v-if="isEdit" @click="$emit('delete')" class="btn-danger">
+          <TrashIcon class="w-4 h-4" /> Hapus
         </button>
-        <button
-          v-if="isEdit"
-          @click="$emit('delete')"
-          class="bg-red-50 text-red-500 px-4 py-2.5 rounded-xl font-bold hover:bg-red-100 transition border-2 border-red-100 flex items-center gap-1"
-        >
-          <TrashIcon class="w-4 h-4" />
-        </button>
+        <div class="flex gap-2 ml-auto">
+          <button @click="$emit('close')" class="btn-secondary">Batal</button>
+          <button @click="handleSave" class="btn-primary">
+            <CheckIcon class="w-4 h-4" /> Simpan
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -100,13 +125,11 @@
 <script setup>
 import { ref, watch } from "vue";
 import {
-  XMarkIcon,
-  ClipboardDocumentListIcon,
   PencilSquareIcon,
-  FlagIcon,
-  CalendarDaysIcon,
-  CheckIcon,
+  PlusCircleIcon,
+  XMarkIcon,
   TrashIcon,
+  CheckIcon,
 } from "@heroicons/vue/24/outline";
 
 const props = defineProps({ task: Object, isEdit: Boolean });
@@ -118,6 +141,30 @@ const form = ref({
   priority: "medium",
   due_date: "",
 });
+
+const priorities = [
+  {
+    value: "high",
+    label: "Tinggi",
+    dot: "bg-red-500",
+    activeClass: "border-red-200 bg-red-50",
+    textActive: "text-red-700",
+  },
+  {
+    value: "medium",
+    label: "Sedang",
+    dot: "bg-amber-500",
+    activeClass: "border-amber-200 bg-amber-50",
+    textActive: "text-amber-700",
+  },
+  {
+    value: "low",
+    label: "Rendah",
+    dot: "bg-emerald-500",
+    activeClass: "border-emerald-200 bg-emerald-50",
+    textActive: "text-emerald-700",
+  },
+];
 
 watch(
   () => props.task,
@@ -134,7 +181,7 @@ watch(
 );
 
 const handleSave = () => {
-  if (!form.value.title) return;
+  if (!form.value.title.trim()) return;
   emit("save", { ...form.value });
 };
 </script>
