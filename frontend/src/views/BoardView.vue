@@ -57,7 +57,6 @@
       </div>
     </div>
 
-    <!-- Modal tambah kolom -->
     <transition name="modal">
       <div
         v-if="showColumnModal"

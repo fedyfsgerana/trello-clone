@@ -95,7 +95,6 @@
       </div>
     </div>
 
-    <!-- Right form -->
     <div class="flex-1 flex items-center justify-center p-8">
       <div class="w-full max-w-md animate-fade-in">
         <div class="flex items-center gap-2 mb-8 lg:hidden">
@@ -159,7 +158,6 @@
         </div>
 
         <div class="space-y-4">
-          <!-- Email -->
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5"
               >Alamat Email</label
@@ -178,7 +176,6 @@
             </div>
           </div>
 
-          <!-- Password -->
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5"
               >Password</label

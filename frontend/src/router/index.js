@@ -31,7 +31,6 @@ const router = createRouter({
     routes,
 })
 
-// Fix: gunakan return bukan next()
 router.beforeEach((to, from) => {
     const authStore = useAuthStore()
     if (to.meta.requiresAuth && !authStore.isLoggedIn) {

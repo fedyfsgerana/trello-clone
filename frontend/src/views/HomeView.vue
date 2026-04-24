@@ -70,7 +70,6 @@
           </div>
         </div>
 
-        <!-- Card tambah -->
         <div
           @click="openCreateModal"
           class="rounded-2xl border-2 border-dashed border-slate-200 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 flex flex-col items-center justify-center text-slate-400 hover:text-blue-500 min-h-36 gap-2 group"
@@ -85,7 +84,6 @@
       </div>
     </div>
 
-    <!-- Modal Buat Board -->
     <transition name="modal">
       <div
         v-if="showModal"

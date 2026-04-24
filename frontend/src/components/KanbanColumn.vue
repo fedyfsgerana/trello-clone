@@ -19,17 +19,18 @@
       </button>
     </div>
 
-    <div class="flex-1 overflow-y-auto px-3 pb-2 space-y-2">
-      <draggable
-        :list="column.tasks"
+    <div class="flex-1 overflow-y-auto px-3 pb-2">
+      <VueDraggable
+        v-model="localTasks"
         group="tasks"
         item-key="id"
+        class="space-y-2 min-h-[8px]"
         @end="onDragEnd"
       >
         <template #item="{ element }">
           <TaskCard :task="element" @click="openModal(element)" />
         </template>
-      </draggable>
+      </VueDraggable>
     </div>
 
     <div class="p-3 pt-2 border-t border-white border-opacity-10">
@@ -53,8 +54,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import draggable from "vuedraggable";
+import { ref, computed } from "vue";
+import { VueDraggable } from "vue-draggable-plus";
 import { X, Plus } from "lucide-vue-next";
 import TaskCard from "./TaskCard.vue";
 import TaskModal from "./TaskModal.vue";
@@ -68,6 +69,11 @@ const taskStore = useTaskStore();
 const { success } = useToast();
 const { ask } = useConfirm();
 const selectedTask = ref(null);
+
+const localTasks = computed({
+  get: () => props.column.tasks || [],
+  set: () => {},
+});
 
 const openModal = (task) => {
   selectedTask.value = { ...task };
@@ -97,9 +103,11 @@ const handleDeleteTask = async () => {
 
 const onDragEnd = async (evt) => {
   if (evt.to !== evt.from) {
-    const taskId = evt.item._underlying_vm_.id;
-    await taskStore.moveTask(taskId, props.column.id, evt.newIndex);
-    emit("refresh");
+    const taskId = evt.item._underlying_vm_?.id;
+    if (taskId) {
+      await taskStore.moveTask(taskId, props.column.id, evt.newIndex);
+      emit("refresh");
+    }
   }
 };
 </script>
