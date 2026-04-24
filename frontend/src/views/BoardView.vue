@@ -1,3 +1,3 @@
 <template>
-  <router-view />
+  <div>Board</div>
 </template>
