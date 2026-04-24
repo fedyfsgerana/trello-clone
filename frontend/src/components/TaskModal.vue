@@ -14,10 +14,10 @@
             class="w-9 h-9 rounded-xl flex items-center justify-center"
             :class="isEdit ? 'bg-slate-100' : 'bg-blue-50'"
           >
-            <PencilSquareIcon v-if="isEdit" class="w-5 h-5 text-slate-600" />
-            <PlusCircleIcon v-else class="w-5 h-5 text-blue-600" />
+            <SquarePen v-if="isEdit" class="w-5 h-5 text-slate-600" />
+            <PlusCircle v-else class="w-5 h-5 text-blue-600" />
           </div>
-          <h3 class="font-display font-black text-slate-800 text-lg">
+          <h3 class="font-extrabold text-slate-800 text-lg">
             {{ isEdit ? "Edit Task" : "Task Baru" }}
           </h3>
         </div>
@@ -25,7 +25,7 @@
           @click="$emit('close')"
           class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
         >
-          <XMarkIcon class="w-5 h-5" />
+          <X class="w-5 h-5" />
         </button>
       </div>
 
@@ -42,7 +42,6 @@
             class="input"
           />
         </div>
-
         <div>
           <label
             class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
@@ -93,14 +92,13 @@
               </label>
             </div>
           </div>
-
           <div>
             <label
               class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5"
               >Due Date</label
             >
             <input v-model="form.due_date" type="date" class="input" />
-            <p class="text-xs text-slate-400 mt-1.5">Batas pengerjaan</p>
+            <p class="text-xs text-slate-400 mt-1.5">Batas pengerjaan task</p>
           </div>
         </div>
       </div>
@@ -109,12 +107,12 @@
         class="flex items-center justify-between px-6 py-4 bg-slate-50 border-t border-slate-100 gap-3"
       >
         <button v-if="isEdit" @click="$emit('delete')" class="btn-danger">
-          <TrashIcon class="w-4 h-4" /> Hapus
+          <Trash2 class="w-4 h-4" /> Hapus
         </button>
         <div class="flex gap-2 ml-auto">
           <button @click="$emit('close')" class="btn-secondary">Batal</button>
           <button @click="handleSave" class="btn-primary">
-            <CheckIcon class="w-4 h-4" /> Simpan
+            <Check class="w-4 h-4" /> Simpan
           </button>
         </div>
       </div>
@@ -124,13 +122,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import {
-  PencilSquareIcon,
-  PlusCircleIcon,
-  XMarkIcon,
-  TrashIcon,
-  CheckIcon,
-} from "@heroicons/vue/24/outline";
+import { SquarePen, PlusCircle, X, Trash2, Check } from "lucide-vue-next";
 
 const props = defineProps({ task: Object, isEdit: Boolean });
 const emit = defineEmits(["save", "delete", "close"]);
@@ -141,7 +133,6 @@ const form = ref({
   priority: "medium",
   due_date: "",
 });
-
 const priorities = [
   {
     value: "high",

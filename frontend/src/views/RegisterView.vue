@@ -42,11 +42,9 @@
               opacity="0.9"
             />
           </svg>
-          <span class="font-display font-black text-slate-800 text-xl"
-            >TaskBoard</span
-          >
+          <span class="font-extrabold text-slate-800 text-xl">TaskBoard</span>
         </router-link>
-        <h1 class="font-display font-black text-slate-800 text-3xl mb-1">
+        <h1 class="font-extrabold text-slate-800 text-3xl mb-1">
           Buat akun baru
         </h1>
         <p class="text-slate-500 text-sm">
@@ -59,15 +57,13 @@
           v-if="error"
           class="bg-red-50 border border-red-200 rounded-xl p-3 mb-5 flex items-center gap-2 text-red-700 text-sm animate-slide-down"
         >
-          <ExclamationCircleIcon class="w-4 h-4 flex-shrink-0" />
-          {{ error }}
+          <AlertCircle class="w-4 h-4 flex-shrink-0" /> {{ error }}
         </div>
         <div
           v-if="success"
           class="bg-green-50 border border-green-200 rounded-xl p-3 mb-5 flex items-center gap-2 text-green-700 text-sm animate-slide-down"
         >
-          <CheckCircleIcon class="w-4 h-4 flex-shrink-0" />
-          {{ success }}
+          <CheckCircle class="w-4 h-4 flex-shrink-0" /> {{ success }}
         </div>
 
         <div class="space-y-4">
@@ -76,8 +72,8 @@
               >Nama Lengkap</label
             >
             <div class="relative">
-              <UserIcon
-                class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"
+              <User
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 v-model="name"
@@ -92,8 +88,8 @@
               >Alamat Email</label
             >
             <div class="relative">
-              <EnvelopeIcon
-                class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"
+              <Mail
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 v-model="email"
@@ -108,8 +104,8 @@
               >Password</label
             >
             <div class="relative">
-              <LockClosedIcon
-                class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"
+              <Lock
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 v-model="password"
@@ -119,10 +115,11 @@
               />
               <button
                 @click="showPass = !showPass"
-                class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                type="button"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
               >
-                <EyeIcon v-if="!showPass" class="w-5 h-5" />
-                <EyeSlashIcon v-else class="w-5 h-5" />
+                <Eye v-if="!showPass" class="w-4 h-4" />
+                <EyeOff v-else class="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -130,10 +127,10 @@
           <button
             @click="handleRegister"
             :disabled="loading"
-            class="w-full btn-primary justify-center py-3 text-base mt-2 disabled:opacity-60"
+            class="w-full btn-primary justify-center py-3 text-base disabled:opacity-60 mt-2"
           >
-            <ArrowPathIcon v-if="loading" class="w-4 h-4 animate-spin" />
-            <UserPlusIcon v-else class="w-4 h-4" />
+            <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
+            <UserPlus v-else class="w-4 h-4" />
             {{ loading ? "Memproses..." : "Daftar Sekarang" }}
           </button>
         </div>
@@ -156,16 +153,16 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 import {
-  UserIcon,
-  EnvelopeIcon,
-  LockClosedIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  UserPlusIcon,
-  ArrowPathIcon,
-  ExclamationCircleIcon,
-  CheckCircleIcon,
-} from "@heroicons/vue/24/outline";
+  User,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  UserPlus,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-vue-next";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -193,7 +190,7 @@ const handleRegister = async () => {
     success.value = "Akun berhasil dibuat! Mengalihkan ke halaman login...";
     setTimeout(() => router.push("/login"), 2000);
   } catch (err) {
-    error.value = err.response?.data?.message || "Registrasi gagal, coba lagi";
+    error.value = err.response?.data?.message || "Registrasi gagal";
   } finally {
     loading.value = false;
   }

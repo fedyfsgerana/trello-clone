@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex">
+    <!-- Left branding -->
     <div
       class="hidden lg:flex w-5/12 bg-blue-600 flex-col justify-between p-12 relative overflow-hidden"
     >
@@ -21,86 +22,80 @@
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
-
+      <div class="relative z-10 flex items-center gap-3">
+        <svg width="36" height="36" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="14" fill="white" opacity="0.2" />
+          <rect
+            x="10"
+            y="10"
+            width="18"
+            height="26"
+            rx="4"
+            fill="white"
+            opacity="0.9"
+          />
+          <rect
+            x="10"
+            y="42"
+            width="18"
+            height="12"
+            rx="4"
+            fill="white"
+            opacity="0.5"
+          />
+          <rect
+            x="36"
+            y="10"
+            width="18"
+            height="12"
+            rx="4"
+            fill="white"
+            opacity="0.5"
+          />
+          <rect
+            x="36"
+            y="28"
+            width="18"
+            height="26"
+            rx="4"
+            fill="white"
+            opacity="0.9"
+          />
+        </svg>
+        <span class="font-extrabold text-white text-xl">TaskBoard</span>
+      </div>
       <div class="relative z-10">
-        <div class="flex items-center gap-3 mb-16">
-          <svg width="36" height="36" viewBox="0 0 64 64" fill="none">
-            <rect width="64" height="64" rx="14" fill="white" opacity="0.2" />
-            <rect
-              x="10"
-              y="10"
-              width="18"
-              height="26"
-              rx="4"
-              fill="white"
-              opacity="0.9"
-            />
-            <rect
-              x="10"
-              y="42"
-              width="18"
-              height="12"
-              rx="4"
-              fill="white"
-              opacity="0.5"
-            />
-            <rect
-              x="36"
-              y="10"
-              width="18"
-              height="12"
-              rx="4"
-              fill="white"
-              opacity="0.5"
-            />
-            <rect
-              x="36"
-              y="28"
-              width="18"
-              height="26"
-              rx="4"
-              fill="white"
-              opacity="0.9"
-            />
-          </svg>
-          <span class="font-display font-black text-white text-xl"
-            >TaskBoard</span
-          >
-        </div>
-
-        <h2
-          class="font-display font-black text-white text-4xl leading-tight mb-4"
-        >
+        <h2 class="font-extrabold text-white text-4xl leading-tight mb-4">
           Kelola proyek<br />lebih efisien.
         </h2>
         <p class="text-blue-100 text-base leading-relaxed">
-          Buat board, atur kolom, dan pantau setiap task tim kamu dalam satu
-          tempat.
+          Buat board, atur kolom, dan pantau setiap task dalam satu tempat yang
+          rapi.
         </p>
       </div>
-
       <div class="relative z-10 grid grid-cols-3 gap-3">
         <div
           class="bg-white bg-opacity-10 rounded-xl p-4 border border-white border-opacity-20"
         >
-          <RocketLaunchIcon class="w-6 h-6 text-white mb-2" />
+          <Rocket class="w-6 h-6 text-white mb-2" />
           <p class="text-white text-xs font-semibold">Cepat & Ringan</p>
         </div>
         <div
           class="bg-white bg-opacity-10 rounded-xl p-4 border border-white border-opacity-20"
         >
-          <ShieldCheckIcon class="w-6 h-6 text-white mb-2" />
+          <ShieldCheck class="w-6 h-6 text-white mb-2" />
           <p class="text-white text-xs font-semibold">Aman & Privat</p>
         </div>
         <div
           class="bg-white bg-opacity-10 rounded-xl p-4 border border-white border-opacity-20"
         >
-          <DevicePhoneMobileIcon class="w-6 h-6 text-white mb-2" />
+          <Smartphone class="w-6 h-6 text-white mb-2" />
           <p class="text-white text-xs font-semibold">Responsif</p>
         </div>
       </div>
     </div>
 
+    <!-- Right form -->
     <div class="flex-1 flex items-center justify-center p-8">
       <div class="w-full max-w-md animate-fade-in">
         <div class="flex items-center gap-2 mb-8 lg:hidden">
@@ -143,16 +138,14 @@
               opacity="0.9"
             />
           </svg>
-          <span class="font-display font-black text-slate-800 text-xl"
-            >TaskBoard</span
-          >
+          <span class="font-extrabold text-slate-800 text-xl">TaskBoard</span>
         </div>
 
         <div class="mb-8">
-          <h1 class="font-display font-black text-slate-800 text-3xl mb-1">
+          <h1 class="font-extrabold text-slate-800 text-3xl mb-1">
             Selamat datang!
           </h1>
-          <p class="text-slate-500">
+          <p class="text-slate-500 text-sm">
             Masuk untuk melanjutkan ke dashboard kamu
           </p>
         </div>
@@ -161,18 +154,19 @@
           v-if="error"
           class="bg-red-50 border border-red-200 rounded-xl p-3 mb-5 flex items-center gap-2 text-red-700 text-sm animate-slide-down"
         >
-          <ExclamationCircleIcon class="w-4 h-4 flex-shrink-0" />
+          <AlertCircle class="w-4 h-4 flex-shrink-0" />
           {{ error }}
         </div>
 
         <div class="space-y-4">
+          <!-- Email -->
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5"
               >Alamat Email</label
             >
             <div class="relative">
-              <EnvelopeIcon
-                class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"
+              <Mail
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 v-model="email"
@@ -183,27 +177,30 @@
               />
             </div>
           </div>
+
+          <!-- Password -->
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5"
               >Password</label
             >
             <div class="relative">
-              <LockClosedIcon
-                class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"
+              <Lock
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 v-model="password"
                 :type="showPass ? 'text' : 'password'"
-                placeholder="••••••••"
+                placeholder="Minimal 8 karakter"
                 @keyup.enter="handleLogin"
                 class="input pl-10 pr-10"
               />
               <button
                 @click="showPass = !showPass"
-                class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                type="button"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
               >
-                <EyeIcon v-if="!showPass" class="w-5 h-5" />
-                <EyeSlashIcon v-else class="w-5 h-5" />
+                <Eye v-if="!showPass" class="w-4 h-4" />
+                <EyeOff v-else class="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -211,10 +208,10 @@
           <button
             @click="handleLogin"
             :disabled="loading"
-            class="w-full btn-primary justify-center py-3 text-base mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            class="w-full btn-primary justify-center py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed mt-2"
           >
-            <ArrowPathIcon v-if="loading" class="w-4 h-4 animate-spin" />
-            <ArrowRightOnRectangleIcon v-else class="w-4 h-4" />
+            <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
+            <LogIn v-else class="w-4 h-4" />
             {{ loading ? "Memproses..." : "Masuk" }}
           </button>
         </div>
@@ -237,17 +234,17 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 import {
-  EnvelopeIcon,
-  LockClosedIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  ArrowRightOnRectangleIcon,
-  ArrowPathIcon,
-  ExclamationCircleIcon,
-  RocketLaunchIcon,
-  ShieldCheckIcon,
-  DevicePhoneMobileIcon,
-} from "@heroicons/vue/24/outline";
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  LogIn,
+  Loader2,
+  AlertCircle,
+  Rocket,
+  ShieldCheck,
+  Smartphone,
+} from "lucide-vue-next";
 
 const router = useRouter();
 const authStore = useAuthStore();

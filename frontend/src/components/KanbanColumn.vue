@@ -5,19 +5,17 @@
     <div class="flex items-center justify-between p-4 pb-3">
       <div class="flex items-center gap-2">
         <span
-          class="bg-white bg-opacity-20 text-white text-xs font-black px-2 py-0.5 rounded-full min-w-6 text-center"
+          class="bg-white bg-opacity-20 text-white text-xs font-bold px-2 py-0.5 rounded-full"
         >
           {{ column.tasks?.length || 0 }}
         </span>
-        <h3 class="font-display font-bold text-white text-sm">
-          {{ column.title }}
-        </h3>
+        <h3 class="font-bold text-white text-sm">{{ column.title }}</h3>
       </div>
       <button
         @click="$emit('delete-column', column.id)"
         class="w-7 h-7 rounded-lg text-white opacity-40 hover:opacity-100 hover:bg-white hover:bg-opacity-20 flex items-center justify-center transition-all"
       >
-        <XMarkIcon class="w-4 h-4" />
+        <X class="w-4 h-4" />
       </button>
     </div>
 
@@ -27,7 +25,6 @@
         group="tasks"
         item-key="id"
         @end="onDragEnd"
-        handle=".drag-handle"
       >
         <template #item="{ element }">
           <TaskCard :task="element" @click="openModal(element)" />
@@ -35,12 +32,12 @@
       </draggable>
     </div>
 
-    <div class="p-3 pt-2">
+    <div class="p-3 pt-2 border-t border-white border-opacity-10">
       <button
         @click="$emit('add-task', column.id)"
         class="w-full flex items-center gap-2 text-white opacity-50 hover:opacity-100 hover:bg-white hover:bg-opacity-10 rounded-xl px-3 py-2 transition-all text-sm font-medium"
       >
-        <PlusIcon class="w-4 h-4" /> Tambah task
+        <Plus class="w-4 h-4" /> Tambah task
       </button>
     </div>
   </div>
@@ -58,7 +55,7 @@
 <script setup>
 import { ref } from "vue";
 import draggable from "vuedraggable";
-import { XMarkIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { X, Plus } from "lucide-vue-next";
 import TaskCard from "./TaskCard.vue";
 import TaskModal from "./TaskModal.vue";
 import { useTaskStore } from "../stores/taskStore";
@@ -86,7 +83,7 @@ const handleUpdateTask = async (data) => {
 const handleDeleteTask = async () => {
   const confirmed = await ask({
     title: "Hapus Task?",
-    message: `Task "${selectedTask.value.title}" akan dihapus permanen.`,
+    message: `"${selectedTask.value.title}" akan dihapus permanen.`,
     confirmText: "Ya, Hapus",
     type: "danger",
   });

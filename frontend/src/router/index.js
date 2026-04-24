@@ -31,14 +31,14 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, from, next) => {
+// Fix: gunakan return bukan next()
+router.beforeEach((to, from) => {
     const authStore = useAuthStore()
     if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-        next('/login')
-    } else if ((to.path === '/login' || to.path === '/register') && authStore.isLoggedIn) {
-        next('/')
-    } else {
-        next()
+        return '/login'
+    }
+    if ((to.path === '/login' || to.path === '/register') && authStore.isLoggedIn) {
+        return '/'
     }
 })
 

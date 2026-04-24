@@ -11,10 +11,12 @@
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "axios": "^1.15.2",
+    "lucide-vue-next": "^1.0.0",
     "pinia": "^3.0.4",
+    "sortablejs": "^1.15.7",
     "vue": "^3.5.32",
     "vue-router": "^5.0.6",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.6",

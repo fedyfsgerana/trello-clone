@@ -7,14 +7,13 @@
 
     <div v-if="boardStore.currentBoard" class="flex-1 flex flex-col p-6">
       <div class="flex items-center gap-3 mb-6 flex-wrap">
-        <router-link
-          to="/"
-          class="text-white opacity-60 hover:opacity-100 transition flex items-center gap-1 text-sm font-medium"
+        <button
+          @click="router.push('/')"
+          class="flex items-center gap-1.5 text-white bg-white bg-opacity-15 hover:bg-opacity-25 px-3 py-1.5 rounded-xl text-sm font-medium transition border border-white border-opacity-20"
         >
-          <ChevronLeftIcon class="w-4 h-4" /> Board
-        </router-link>
-        <span class="text-white opacity-30">/</span>
-        <h1 class="font-display font-black text-white text-xl">
+          <ChevronLeft class="w-4 h-4" /> Kembali
+        </button>
+        <h1 class="font-extrabold text-white text-xl">
           {{ boardStore.currentBoard.title }}
         </h1>
         <span
@@ -26,7 +25,7 @@
           @click="openAddColumn"
           class="ml-auto flex items-center gap-1.5 bg-white bg-opacity-15 hover:bg-opacity-25 text-white text-sm font-semibold px-4 py-2 rounded-xl transition border border-white border-opacity-20"
         >
-          <PlusIcon class="w-4 h-4" /> Tambah Kolom
+          <Plus class="w-4 h-4" /> Tambah Kolom
         </button>
       </div>
 
@@ -39,12 +38,11 @@
           @add-task="handleAddTask"
           @refresh="loadBoard"
         />
-
         <div
           @click="openAddColumn"
-          class="flex-shrink-0 w-72 border-2 border-dashed border-white border-opacity-30 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-white hover:bg-opacity-10 transition-all py-8 text-white opacity-50 hover:opacity-100 gap-2"
+          class="flex-shrink-0 w-72 border-2 border-dashed border-white border-opacity-30 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-white hover:bg-opacity-10 transition-all py-8 text-white opacity-50 hover:opacity-100 gap-2 min-h-32"
         >
-          <PlusCircleIcon class="w-8 h-8" />
+          <PlusCircle class="w-8 h-8" />
           <span class="text-sm font-semibold">Tambah Kolom</span>
         </div>
       </div>
@@ -59,6 +57,7 @@
       </div>
     </div>
 
+    <!-- Modal tambah kolom -->
     <transition name="modal">
       <div
         v-if="showColumnModal"
@@ -69,14 +68,12 @@
           class="bg-white rounded-2xl shadow-2xl w-full max-w-sm animate-fade-in p-6"
         >
           <div class="flex items-center justify-between mb-5">
-            <h3 class="font-display font-black text-slate-800 text-lg">
-              Kolom Baru
-            </h3>
+            <h3 class="font-extrabold text-slate-800 text-lg">Kolom Baru</h3>
             <button
               @click="showColumnModal = false"
               class="text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 transition"
             >
-              <XMarkIcon class="w-5 h-5" />
+              <X class="w-5 h-5" />
             </button>
           </div>
           <input
@@ -92,9 +89,9 @@
               :disabled="addingColumn"
               class="btn-primary flex-1 justify-center"
             >
-              <ArrowPathIcon v-if="addingColumn" class="w-4 h-4 animate-spin" />
-              <CheckIcon v-else class="w-4 h-4" />
-              {{ addingColumn ? "Menyimpan..." : "Tambah Kolom" }}
+              <Loader2 v-if="addingColumn" class="w-4 h-4 animate-spin" />
+              <Check v-else class="w-4 h-4" />
+              {{ addingColumn ? "Menyimpan..." : "Tambah" }}
             </button>
             <button @click="showColumnModal = false" class="btn-secondary">
               Batal
@@ -116,7 +113,7 @@
 
 <script setup>
 import { onMounted, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useBoardStore } from "../stores/boardStore";
 import { useTaskStore } from "../stores/taskStore";
 import { useToast } from "../composables/useToast";
@@ -125,15 +122,16 @@ import Navbar from "../components/Navbar.vue";
 import KanbanColumn from "../components/KanbanColumn.vue";
 import TaskModal from "../components/TaskModal.vue";
 import {
-  PlusIcon,
-  PlusCircleIcon,
-  ChevronLeftIcon,
-  XMarkIcon,
-  CheckIcon,
-  ArrowPathIcon,
-} from "@heroicons/vue/24/outline";
+  Plus,
+  PlusCircle,
+  ChevronLeft,
+  X,
+  Check,
+  Loader2,
+} from "lucide-vue-next";
 
 const route = useRoute();
+const router = useRouter();
 const boardStore = useBoardStore();
 const taskStore = useTaskStore();
 const { success, error: toastError } = useToast();
@@ -146,11 +144,9 @@ const addingColumn = ref(false);
 const activeColumnId = ref(null);
 
 const boardColor = computed(() => boardStore.currentBoard?.color || "#2563EB");
-
 const loadBoard = async () => {
   await boardStore.fetchBoardById(route.params.id);
 };
-
 onMounted(loadBoard);
 
 const openAddColumn = () => {

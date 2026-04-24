@@ -1,12 +1,9 @@
 <template>
   <div class="min-h-screen bg-slate-50">
     <Navbar />
-
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <div class="mb-8">
-        <h1 class="font-display font-black text-slate-800 text-3xl">
-          Board Saya
-        </h1>
+        <h1 class="font-extrabold text-slate-800 text-3xl">Board Saya</h1>
         <p class="text-slate-500 mt-1 text-sm">
           {{ boardStore.boards.length }} board aktif
         </p>
@@ -26,7 +23,7 @@
           v-for="board in boardStore.boards"
           :key="board.id"
           @click="router.push(`/board/${board.id}`)"
-          class="group relative rounded-2xl p-5 text-white cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-md overflow-hidden min-h-36 flex flex-col justify-between animate-fade-in"
+          class="group relative rounded-2xl p-5 text-white cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-md overflow-hidden min-h-36 flex flex-col justify-between"
           :style="{ backgroundColor: board.color }"
         >
           <div class="absolute inset-0 opacity-[0.08]">
@@ -42,39 +39,38 @@
               <rect width="100%" height="100%" fill="url(#dots)" />
             </svg>
           </div>
-
           <div class="relative">
             <div
               class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mb-3"
             >
-              <RectangleStackIcon class="w-4 h-4 text-white" />
+              <LayoutDashboard class="w-4 h-4 text-white" />
             </div>
-            <h3 class="font-display font-black text-lg leading-tight">
+            <h3 class="font-extrabold text-lg leading-tight">
               {{ board.title }}
             </h3>
             <p
               v-if="board.description"
-              class="text-sm opacity-75 mt-1 line-clamp-2 font-normal"
+              class="text-sm opacity-75 mt-1 line-clamp-2"
             >
               {{ board.description }}
             </p>
           </div>
-
           <div class="relative flex items-center justify-between mt-4">
             <span
               class="text-xs opacity-60 font-medium flex items-center gap-1"
             >
-              <ArrowRightIcon class="w-3 h-3" /> Buka board
+              <ArrowRight class="w-3 h-3" /> Buka board
             </span>
             <button
               @click.stop="handleDeleteBoard(board.id)"
               class="opacity-0 group-hover:opacity-100 transition-all w-7 h-7 bg-black bg-opacity-20 hover:bg-opacity-40 rounded-lg flex items-center justify-center"
             >
-              <TrashIcon class="w-3.5 h-3.5 text-white" />
+              <Trash2 class="w-3.5 h-3.5 text-white" />
             </button>
           </div>
         </div>
 
+        <!-- Card tambah -->
         <div
           @click="openCreateModal"
           class="rounded-2xl border-2 border-dashed border-slate-200 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 flex flex-col items-center justify-center text-slate-400 hover:text-blue-500 min-h-36 gap-2 group"
@@ -82,13 +78,14 @@
           <div
             class="w-10 h-10 rounded-xl border-2 border-dashed border-current flex items-center justify-center group-hover:scale-110 transition-transform"
           >
-            <PlusIcon class="w-5 h-5" />
+            <Plus class="w-5 h-5" />
           </div>
           <span class="text-sm font-semibold">Buat Board Baru</span>
         </div>
       </div>
     </div>
 
+    <!-- Modal Buat Board -->
     <transition name="modal">
       <div
         v-if="showModal"
@@ -105,17 +102,15 @@
               <div
                 class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center"
               >
-                <RectangleStackIcon class="w-5 h-5 text-blue-600" />
+                <LayoutDashboard class="w-5 h-5 text-blue-600" />
               </div>
-              <h2 class="font-display font-black text-slate-800 text-lg">
-                Board Baru
-              </h2>
+              <h2 class="font-extrabold text-slate-800 text-lg">Board Baru</h2>
             </div>
             <button
               @click="showModal = false"
               class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center transition"
             >
-              <XMarkIcon class="w-5 h-5" />
+              <X class="w-5 h-5" />
             </button>
           </div>
 
@@ -158,14 +153,13 @@
                       newBoard.color === c ? '#1e40af' : 'transparent',
                   }"
                 >
-                  <CheckIcon
+                  <Check
                     v-if="newBoard.color === c"
                     class="w-4 h-4 text-white"
                   />
                 </button>
               </div>
             </div>
-
             <div
               class="rounded-xl p-4 text-white text-sm font-semibold relative overflow-hidden"
               :style="{ backgroundColor: newBoard.color }"
@@ -183,8 +177,8 @@
                   <rect width="100%" height="100%" fill="url(#prev-dots)" />
                 </svg>
               </div>
-              <p class="relative opacity-80 text-xs mb-1">Preview</p>
-              <p class="relative font-display font-black">
+              <p class="relative opacity-70 text-xs mb-1">Preview</p>
+              <p class="relative font-extrabold">
                 {{ newBoard.title || "Judul Board" }}
               </p>
             </div>
@@ -196,8 +190,8 @@
               :disabled="creating"
               class="btn-primary flex-1 justify-center py-2.5 disabled:opacity-60"
             >
-              <ArrowPathIcon v-if="creating" class="w-4 h-4 animate-spin" />
-              <CheckIcon v-else class="w-4 h-4" />
+              <Loader2 v-if="creating" class="w-4 h-4 animate-spin" />
+              <Check v-else class="w-4 h-4" />
               {{ creating ? "Menyimpan..." : "Buat Board" }}
             </button>
             <button @click="showModal = false" class="btn-secondary">
@@ -218,14 +212,14 @@ import { useToast } from "../composables/useToast";
 import { useConfirm } from "../composables/useConfirm";
 import Navbar from "../components/Navbar.vue";
 import {
-  PlusIcon,
-  RectangleStackIcon,
-  TrashIcon,
-  ArrowRightIcon,
-  XMarkIcon,
-  CheckIcon,
-  ArrowPathIcon,
-} from "@heroicons/vue/24/outline";
+  Plus,
+  LayoutDashboard,
+  Trash2,
+  ArrowRight,
+  X,
+  Check,
+  Loader2,
+} from "lucide-vue-next";
 
 const router = useRouter();
 const boardStore = useBoardStore();
@@ -289,9 +283,9 @@ const handleDeleteBoard = async (id) => {
   if (confirmed) {
     try {
       await boardStore.deleteBoard(id);
-      success("Board dihapus", "Board berhasil dihapus");
+      success("Board dihapus");
     } catch {
-      toastError("Gagal menghapus", "Terjadi kesalahan");
+      toastError("Gagal menghapus");
     }
   }
 };

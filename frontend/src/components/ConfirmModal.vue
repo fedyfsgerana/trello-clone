@@ -12,12 +12,13 @@
           <div class="flex items-start gap-4 mb-5">
             <div
               class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-              :class="type === 'danger' ? 'bg-red-100' : 'bg-blue-100'"
+              :class="type === 'danger' ? 'bg-red-50' : 'bg-blue-50'"
             >
-              <span class="text-xl">{{ type === "danger" ? "🗑️" : "❓" }}</span>
+              <Trash2 v-if="type === 'danger'" class="w-5 h-5 text-red-500" />
+              <HelpCircle v-else class="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <h3 class="font-display font-bold text-slate-800 text-lg">
+              <h3 class="font-extrabold text-slate-800 text-base">
                 {{ title }}
               </h3>
               <p class="text-slate-500 text-sm mt-1">{{ message }}</p>
@@ -40,13 +41,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { Trash2, HelpCircle } from "lucide-vue-next";
 
 const visible = ref(false);
 const title = ref("");
 const message = ref("");
 const confirmText = ref("Konfirmasi");
 const type = ref("danger");
-
 let resolveFn = null;
 
 const open = (opts) => {
@@ -59,7 +60,6 @@ const open = (opts) => {
     resolveFn = resolve;
   });
 };
-
 const confirm = () => {
   visible.value = false;
   resolveFn?.(true);
@@ -68,7 +68,6 @@ const cancel = () => {
   visible.value = false;
   resolveFn?.(false);
 };
-
 defineExpose({ open });
 </script>
 
