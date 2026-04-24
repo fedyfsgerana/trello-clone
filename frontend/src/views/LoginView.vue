@@ -1,21 +1,16 @@
 <template>
   <div class="min-h-screen bg-blue-600 flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-      <!-- Logo -->
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-blue-600">Trello Clone</h1>
         <p class="text-gray-500 mt-2">Masuk ke akun kamu</p>
       </div>
-
-      <!-- Error -->
       <div
         v-if="error"
         class="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm"
       >
         {{ error }}
       </div>
-
-      <!-- Form -->
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1"
@@ -28,7 +23,6 @@
             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1"
             >Password</label
@@ -40,7 +34,6 @@
             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
         <button
           @click="handleLogin"
           :disabled="loading"
@@ -49,8 +42,6 @@
           {{ loading ? "Memproses..." : "Masuk" }}
         </button>
       </div>
-
-      <!-- Register link -->
       <p class="text-center text-sm text-gray-500 mt-6">
         Belum punya akun?
         <router-link
